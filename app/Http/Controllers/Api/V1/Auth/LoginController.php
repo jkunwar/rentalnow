@@ -212,16 +212,19 @@ class LoginController extends BaseController
                 'password' => $userSocial->getId(),
                 'image' => $userSocial->getAvatar()
             ]);
+
             return $this->loginUser($request);
            
         } catch (\Exception $e) {
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+            
             return $this->respondWithError($e->getMessage());
         }
     }
 
     public function loginUser($request) {
         DB::beginTransaction();
+        
         try {      
             // check if user already exists
             $provider = (new Provider)->findByUsername($request);
@@ -247,10 +250,13 @@ class LoginController extends BaseController
             $json['user'] = $provider->user;
             DB::commit();
             $this->setStatusCode(Res::HTTP_OK);
+
             return $this->sendSuccessResponse($json, 'Logged In successfully')->cookie('user', $json['user'], 5, '/', null,false, false);
+        
         } catch (\Exception $e) {
             DB::rollBack();
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+            
             return $this->respondWithError($e->getMessage());
         }
     }
@@ -312,6 +318,7 @@ class LoginController extends BaseController
         $accessToken->revoke();
 
         $this->setStatusCode(Res::HTTP_NO_CONTENT);
+        
         return $this->respondNoContent('logged out successfully');
     }
 
@@ -375,6 +382,7 @@ class LoginController extends BaseController
         }
 
         $this->setStatusCode(Res::HTTP_OK);
+        
         return $this->sendSuccessResponse($json, 'token refreshed successfully');
     }
 }

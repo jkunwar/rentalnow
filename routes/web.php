@@ -56,7 +56,8 @@ Route::prefix('admin')->group(function () {
 	Route::post('houses', 'Admin\House\HouseController@dataTablehouses')->name('admin.datatable.houses');
 });
 
-Route::get('/auth/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
+Route::get('/login/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
+Route::get('/login/{social}/callback','Api\V1\Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
 
 // Route::get('/{path}', 'Api\V1\ReactController@index')->where('path', '([A-z\d-\/_.]+)?');
 
