@@ -5,7 +5,7 @@ namespace App\Models;
 use DB;
 use App\Models\RoomImage;
 use App\Models\AmenityRoom;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Room;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -71,17 +71,17 @@ class Room extends Model
     }
 
     public function getAll() {
-        $sort = Input::get('sort');
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $sort = Room::get('sort');
+        $limit = Room::get('limit') ?: 20;
+        $page = Room::get('offset');
         request()->request->add(['page' => $page ?: 1]);
-        $radius = Input::get('radius') ?: 500;
-        $latitude = Input::get('lat');
-        $longitude = Input::get('lng');
-        $min_price = Input::get('min_price');
-        $max_price = Input::get('max_price');
-        $amenities = Input::get('amenity');
-        $pets_allowed = Input::get('pets_allowed');
+        $radius = Room::get('radius') ?: 500;
+        $latitude = Room::get('lat');
+        $longitude = Room::get('lng');
+        $min_price = Room::get('min_price');
+        $max_price = Room::get('max_price');
+        $amenities = Room::get('amenity');
+        $pets_allowed = Room::get('pets_allowed');
 
         $query = $this->roomQuery();
         
@@ -141,8 +141,8 @@ class Room extends Model
     }
 
     public function getUserRooms($userId) {
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $limit = Room::get('limit') ?: 20;
+        $page = Room::get('offset');
         request()->request->add(['page' => $page ?: 1]);
         
 
@@ -160,8 +160,8 @@ class Room extends Model
     }
 
     public function getFavouriteRooms() {
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $limit = Room::get('limit') ?: 20;
+        $page = Room::get('offset');
         request()->request->add(['page' => $page ?: 1]);
 
         $query = $this->roomQuery();

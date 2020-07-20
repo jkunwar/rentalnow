@@ -5,7 +5,7 @@ namespace App\Models;
 use DB;
 use App\Models\HouseImage;
 use App\Models\AmenityHouse;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -71,17 +71,17 @@ class House extends Model
     }
 
     public function getAll() {
-        $sort = Input::get('sort');
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $sort = Request::get('sort');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
-        $radius = Input::get('radius');
-        $latitude = Input::get('lat');
-        $longitude = Input::get('lng');
-        $min_price = Input::get('min_price');
-        $max_price = Input::get('max_price');
-        $amenities = Input::get('amenity');
-        $pets_allowed = Input::get('pets_allowed');
+        $radius = Request::get('radius');
+        $latitude = Request::get('lat');
+        $longitude = Request::get('lng');
+        $min_price = Request::get('min_price');
+        $max_price = Request::get('max_price');
+        $amenities = Request::get('amenity');
+        $pets_allowed = Request::get('pets_allowed');
         $query = $this->houseQuery();
         
         $query->where('houses.is_available', 1);
@@ -138,8 +138,8 @@ class House extends Model
     }
 
     public function getUserHouses($userId) {
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
         $query = $this->houseQuery();
         $houses = $query->where([['houses.is_available', 1], ['users.id', $userId]])
@@ -154,8 +154,8 @@ class House extends Model
     }
 
     public function getFavouriteHouses() {
-        $limit = Input::get('limit') ?: 20;
-        $page = Input::get('offset');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
 
         $query = $this->houseQuery();
