@@ -5,7 +5,7 @@ namespace App\Models;
 use DB;
 use App\Models\RoomImage;
 use App\Models\AmenityRoom;
-use Illuminate\Support\Facades\Room;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,7 +57,8 @@ class Room extends Model
             $query->selectRaw("(SELECT count(*) FROM favourite_rooms WHERE favourite_rooms.room_id = rooms.id AND favourite_rooms.user_id = '$user_id') as favourite");
         }else {
             $query->selectRaw("(SELECT 0 as favourite)");
-        }    
+        }  
+
         return $query;
     }
 
@@ -67,21 +68,23 @@ class Room extends Model
         if(!$room) {
             throw new ModelNotFoundException("room not found");
         }
+
         return $room;
     }
 
     public function getAll() {
-        $sort = Room::get('sort');
-        $limit = Room::get('limit') ?: 20;
-        $page = Room::get('offset');
+        $sort = Request::get('sort');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
-        $radius = Room::get('radius') ?: 500;
-        $latitude = Room::get('lat');
-        $longitude = Room::get('lng');
-        $min_price = Room::get('min_price');
-        $max_price = Room::get('max_price');
-        $amenities = Room::get('amenity');
-        $pets_allowed = Room::get('pets_allowed');
+
+        $radius = Request::get('radius') ?: 500;
+        $latitude = Request::get('lat');
+        $longitude = Request::get('lng');
+        $min_price = Request::get('min_price');
+        $max_price = Request::get('max_price');
+        $amenities = Request::get('amenity');
+        $pets_allowed = Request::get('pets_allowed');
 
         $query = $this->roomQuery();
         
@@ -137,12 +140,13 @@ class Room extends Model
         }
 
         $rooms = $query->paginate($limit);
+
         return $rooms;
     }
 
     public function getUserRooms($userId) {
-        $limit = Room::get('limit') ?: 20;
-        $page = Room::get('offset');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
         
 
@@ -156,15 +160,17 @@ class Room extends Model
 
     public function deleteRoom($roomId) {
         $room = $this->checkIfRoomExists($roomId);
+
         return $room->delete();
     }
 
     public function getFavouriteRooms() {
-        $limit = Room::get('limit') ?: 20;
-        $page = Room::get('offset');
+        $limit = Request::get('limit') ?: 20;
+        $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
 
         $query = $this->roomQuery();
+
         return $query->where('is_available', 1)
             ->join('favourite_rooms', 'rooms.id', 'favourite_rooms.room_id')
             ->where('favourite_rooms.user_id', \Auth::guard('api')->user()->id)
@@ -213,6 +219,7 @@ class Room extends Model
             $room->amenities()->sync($request->amenities);
         }
         $room = $this->findRoomById($room->id);
+
         return $room;
     }
 
@@ -264,6 +271,7 @@ class Room extends Model
 
         (new RoomImage)->deleteImagesByRoomId($room->id);
         $room = $this->findRoomById($room->id);
+
         return $room;
     }
 
@@ -276,6 +284,7 @@ class Room extends Model
         $room->is_available = false;
         $room->save();
         $room = $this->findRoomById($room->id);
+
         return $room;
     }
 
@@ -288,6 +297,7 @@ class Room extends Model
         $room->is_available = true;
         $room->save();
         $room = $this->findRoomById($room->id);
+
         return $room;
     }
 
@@ -295,6 +305,7 @@ class Room extends Model
         $query = Room::join('addresses', 'rooms.address_id', 'addresses.id')
                     ->join('users','rooms.user_id', 'users.id')
                     ->select('rooms.*', 'addresses.location', 'users.name');
+                    
         return $query;
     }
 }

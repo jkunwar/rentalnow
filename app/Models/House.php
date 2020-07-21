@@ -41,6 +41,7 @@ class House extends Model
         if(!$house) {
             throw new ModelNotFoundException("house not found");
         }
+        
         return $house;
     }
 
@@ -58,6 +59,7 @@ class House extends Model
         }else {
             $query->selectRaw("(SELECT 0 as favourite)");
         }    
+
         return $query;
     }
 
@@ -67,6 +69,7 @@ class House extends Model
         if(!$house) {
             throw new ModelNotFoundException("house not found");
         }
+
         return $house;
     }
 
@@ -75,6 +78,7 @@ class House extends Model
         $limit = Request::get('limit') ?: 20;
         $page = Request::get('offset');
         request()->request->add(['page' => $page ?: 1]);
+        
         $radius = Request::get('radius');
         $latitude = Request::get('lat');
         $longitude = Request::get('lng');
@@ -134,6 +138,7 @@ class House extends Model
         }
 
         $houses = $query->paginate($limit);
+
         return $houses;
     }
 
@@ -145,11 +150,13 @@ class House extends Model
         $houses = $query->where([['houses.is_available', 1], ['users.id', $userId]])
                         ->orderBy('houses.created_at', 'desc')
                         ->paginate($limit);
+
         return $houses;
     }
 
     public function deleteHouse($houseId) {
         $house = $this->checkIfHouseExists($houseId);
+
         return $house->delete();
     }
 
@@ -159,6 +166,7 @@ class House extends Model
         request()->request->add(['page' => $page ?: 1]);
 
         $query = $this->houseQuery();
+
         return $query->where('is_available', 1)
             ->join('favourite_houses', 'houses.id', 'favourite_houses.house_id')
             ->where('favourite_houses.user_id', \Auth::guard('api')->user()->id)
@@ -195,6 +203,7 @@ class House extends Model
             $house->amenities()->sync($request->amenities);
         }
         $house = $this->findHouseById($house->id);
+
         return $house;
     }
 
@@ -232,6 +241,7 @@ class House extends Model
         }
         (new HouseImage)->deleteImagesByHouseId($house->id);
         $house = $this->findHouseById($house->id);
+
         return $house;
     }
 
@@ -256,6 +266,7 @@ class House extends Model
         $house->is_available = true;
         $house->save();
         $house = $this->findHouseById($house->id);
+
         return $house;
     }
 
@@ -263,6 +274,7 @@ class House extends Model
         $query = House::join('addresses', 'houses.address_id', 'addresses.id')
                     ->join('users','houses.user_id', 'users.id')
                     ->select('houses.*', 'addresses.location', 'users.name');
+
         return $query;
     }
 }
