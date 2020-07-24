@@ -123,6 +123,7 @@ class LoginController extends BaseController
 
         if($validator->fails()){
             $this->setStatusCode(Res::HTTP_UNPROCESSABLE_ENTITY);
+            
             return $this->respondValidationError('Validation Error.', $validator->errors());
         }
 
@@ -174,10 +175,12 @@ class LoginController extends BaseController
             $json['user'] = $this->user_transformer->transform($user);
             DB::commit();
             $this->setStatusCode(Res::HTTP_OK);
+
             return $this->sendSuccessResponse($json, 'Logged In successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+
             return $this->respondWithError($e->getMessage());
         }
     }
@@ -191,12 +194,12 @@ class LoginController extends BaseController
     }
 
     public function handleProviderCallback(Request $request, $social) {
-        if ($social == "facebook" || $social == "google" || $social == "linkedin") {
-            $userSocial = Socialite::driver($social)->stateless()->user();
-        } else {
-            $userSocial = Socialite::driver($social)->user();           
-        }
         try {
+            if ($social == "facebook" || $social == "google" || $social == "linkedin") {
+                $userSocial = Socialite::driver($social)->stateless()->user();
+            } else {
+                $userSocial = Socialite::driver($social)->user();           
+            }
             if($social== 'facebook') {
                 $request->request->add([
                     'gender' => $userSocial->user['gender']     

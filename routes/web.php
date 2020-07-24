@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Auth::routes();
 
@@ -57,9 +57,9 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/login/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
-Route::get('/login/{social}/callback','Api\V1\Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
+// Route::get('/login/{social}/callback','Api\V1\Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
 
-// Route::get('/{path}', 'Api\V1\ReactController@index')->where('path', '([A-z\d-\/_.]+)?');
+Route::get('/{path}', 'Api\V1\ReactController@index')->where('path', '([A-z\d-\/_.]+)?');
 
 
 // Route::get('/home', 'HomeController@index')->name('home');

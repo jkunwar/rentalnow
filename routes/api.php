@@ -22,7 +22,7 @@ Route::group(['middleware'=>['api', 'app.authorize'],'prefix'=>'/v1',  'namespac
     Route::post('/login', 'LoginController@login');
     Route::post('/tokens/refresh', 'LoginController@refreshToken');
 
-	// Route::post('/login/{social}/callback','LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
+	Route::get('/login/{social}/callback','LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
 });
 
 Route::group(['middleware' => ['auth:api', 'app.authorize'], 'prefix' => '/v1', 'namespace' => 'Api\V1'], function() {

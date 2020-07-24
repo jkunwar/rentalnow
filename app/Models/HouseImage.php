@@ -10,7 +10,7 @@ class HouseImage extends Model
 {
     protected $fillable = ['house_id', 'image_path'];
 
-    public function uploadImage($request, $id) {
+    public function uploadImage($request, $houseId) {
     	if($request->hasFile('image')) {
             $file_name = date('ymdhis');
             $extname = $request->file('image')->getClientOriginalExtension();
@@ -25,9 +25,10 @@ class HouseImage extends Model
             Storage::put('public/thumbnails/house/small_'.$file_name_to_store, (string) $img->encode());
             
             $data = HouseImage::create([
-	            'house_id' => $id,
+	            'house_id' => $houseId,
 	            'image_path' => 'storage/images/house/'.$file_name_to_store
             ]);
+
             return $data;
         }
     }
@@ -40,6 +41,7 @@ class HouseImage extends Model
                 unlink('storage/images/house/'.$image_name[3]);
                 unlink('storage/thumbnails/house/small_'.$image_name[3]);
             }
+            
             HouseImage::where('house_id', $houseId)->delete();
         }
     }

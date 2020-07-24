@@ -89,10 +89,12 @@ class HouseController extends BaseController
 				return $this->respondNotFound('no records found');
 			}
 
-    		$this->setStatusCode(Res::HTTP_OK);
+            $this->setStatusCode(Res::HTTP_OK);
+            
 	      	return $this->respondWithPagination($houses, $this->house_transformer->transformCollection($houses->all()), 'houses listed successfully');
     	} catch (\Exception $e) {
-    		$this->setStatusCode(Res::HTTP_BAD_REQUEST);
+            $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+            
             return $this->respondWithError($e->getMessage());
     	}
     }
@@ -131,6 +133,7 @@ class HouseController extends BaseController
         try {
             $house = (new House)->findHouseById((int)$id);
             $this->setStatusCode(Res::HTTP_OK);
+
             return $this->sendSuccessResponse($this->house_transformer->transform($house), 'house found successfully');
         } catch (\Exception $e) {
             if($e instanceof ModelNotFoundException) {
@@ -138,6 +141,7 @@ class HouseController extends BaseController
                 return $this->respondNotFound($e->getMessage());
             }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+
             return $this->respondWithError($e->getMessage());
         }
     }
@@ -218,15 +222,19 @@ class HouseController extends BaseController
             $house = (new House)->addNewHouse($request, $address);
             DB::commit();
             $this->setStatusCode(Res::HTTP_OK);
+
             return $this->sendSuccessResponse($this->house_transformer->transform($house), 'house created successfully');
         }catch(\Exception $e) {
             DB::rollBack();
 
             if($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
+
                 return $this->respondNotFound($e->getMessage());
             }
+
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
+
             return $this->respondWithError($e->getMessage());
         }
     }
@@ -278,6 +286,7 @@ class HouseController extends BaseController
             $image = (new HouseImage)->uploadImage($request, (int)$id);
             DB::commit();
             $this->setStatusCode(Res::HTTP_OK);
+
             return $this->sendSuccessResponse($this->image_transformer->transform($image), 'image uploaded successfully');
         }catch(\Exception $e) {
             DB::rollBack();
@@ -285,6 +294,7 @@ class HouseController extends BaseController
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
             }
+            
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }

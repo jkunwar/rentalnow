@@ -7,11 +7,11 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+  window.Popper = require('popper.js').default;
+  window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
-} catch (e) {}
+  require('bootstrap');
+} catch (e) { }
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -22,6 +22,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-APP-TOKEN'] = 'ede7353f371663de51accb482e11670b930da7d90b3c4703261f66255149347a5a97e';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
