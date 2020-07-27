@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import config from '../config';
 import { bindActionCreators } from 'redux'
 import { actions as loginAction } from '../actions/auth';
-import config from '../config';
 
 class Welcome extends PureComponent {
 
@@ -19,10 +19,13 @@ class Welcome extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.statusCode === 200) {
-            window.location.href = `${config.baseURI}`;
+        if (this.props.statusCode !== prevProps.statusCode) {
+            if (this.props.statusCode === 200) {
+                window.location.href = `${config.baseURI}`;
+            }
         }
     }
+
     render() {
         return (
             <div style={{ width: 400, margin: '100px auto' }}>
