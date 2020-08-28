@@ -156,7 +156,10 @@ class House extends Model
 
     public function deleteHouse($houseId) {
         $house = $this->checkIfHouseExists($houseId);
-
+        $auth_user = auth()->user()->id;
+        if($house->user_id !== $auth_user) {
+            throw new \Exception("Invalid Request");
+        }
         return $house->delete();
     }
 
@@ -211,7 +214,7 @@ class House extends Model
         $house = $this->checkIfHouseExists($houseId);
         $auth_user = auth()->user()->id;
         if($house->user_id !== $auth_user) {
-            throw new ModelNotFoundException("house not found");
+            throw new \Exception("Invalid Request");
         }
         $house->title = $request->title;
         $house->user_id = $auth_user;
@@ -249,7 +252,7 @@ class House extends Model
         $house = $this->checkIfHouseExists($houseId);
         $auth_user = auth()->user()->id;
         if($house->user_id !== $auth_user) {
-            throw new ModelNotFoundException("house not found");
+            throw new \Exception("Invalid Request");
         }
         $house->is_available = false;
         $house->save();
@@ -261,7 +264,7 @@ class House extends Model
         $house = $this->checkIfHouseExists($houseId);
         $auth_user = auth()->user()->id;
         if($house->user_id !== $auth_user) {
-            throw new ModelNotFoundException("house not found");
+            throw new \Exception("Invalid Request");
         }
         $house->is_available = true;
         $house->save();

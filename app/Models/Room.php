@@ -160,7 +160,10 @@ class Room extends Model
 
     public function deleteRoom($roomId) {
         $room = $this->checkIfRoomExists($roomId);
-
+        $auth_user = auth()->user()->id;
+        if($room->user_id !== $auth_user) {
+            throw new \Exception("Invalid Request");
+        }
         return $room->delete();
     }
 
@@ -227,7 +230,7 @@ class Room extends Model
         $room = $this->checkIfRoomExists($roomId);
         $auth_user = auth()->user()->id;
         if($room->user_id !== $auth_user) {
-            throw new ModelNotFoundException("room not found");
+            throw new \Exception("Invalid Request");
         }
         $room->title = $request->title;
         $room->user_id = $auth_user;
@@ -279,7 +282,7 @@ class Room extends Model
         $room = $this->checkIfRoomExists($roomId);
         $auth_user = auth()->user()->id;
         if($room->user_id !== $auth_user) {
-            throw new ModelNotFoundException("room not found");
+            throw new \Exception("Invalid Request");
         }
         $room->is_available = false;
         $room->save();
@@ -292,7 +295,7 @@ class Room extends Model
         $room = $this->checkIfRoomExists($roomId);
         $auth_user = auth()->user()->id;
         if($room->user_id !== $auth_user) {
-            throw new ModelNotFoundException("room not found");
+            throw new \Exception("Invalid Request");
         }
         $room->is_available = true;
         $room->save();
