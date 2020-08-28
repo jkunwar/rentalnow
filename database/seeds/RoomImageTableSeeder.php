@@ -15,19 +15,19 @@ class RoomImageTableSeeder extends Seeder
         for($i=1; $i <= 500; $i++) {
         	RoomImage::create([
         		'room_id' => $i,
-        		'image_path' => '/storage/images/room/room1.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?room'
         	]);
         	RoomImage::create([
         		'room_id' => $i,
-        		'image_path' => '/storage/images/room/room2.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?room'
         	]);
         	RoomImage::create([
         		'room_id' => $i,
-        		'image_path' => '/storage/images/room/room3.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?room'
         	]);
         	RoomImage::create([
         		'room_id' => $i,
-        		'image_path' => '/storage/images/room/room4.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?room'
         	]);
         }
     }
