@@ -15,19 +15,19 @@ class HouseImageTableSeeder extends Seeder
         for($i=1; $i <= 500; $i++) {
         	HouseImage::create([
         		'house_id' => $i,
-        		'image_path' => '/storage/images/house/house1.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?house'
         	]);
         	HouseImage::create([
         		'house_id' => $i,
-        		'image_path' => '/storage/images/house/house2.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?house'
         	]);
         	HouseImage::create([
         		'house_id' => $i,
-        		'image_path' => '/storage/images/house/house3.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?house'
         	]);
         	HouseImage::create([
         		'house_id' => $i,
-        		'image_path' => '/storage/images/house/house4.jpg'
+        		'image_path' => 'https://source.unsplash.com/400x400/?house'
         	]);
         }
     }
