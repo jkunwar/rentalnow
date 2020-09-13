@@ -1,7 +1,7 @@
 import { actionTypes } from '../actions/auth';
 
 const INITIAL_STATE = {
-  user: {},
+  data: {},
   error: null,
   statusCode: null,
   isAuthenticated: false,
@@ -17,7 +17,7 @@ export const login = (state = INITIAL_STATE, action) => {
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        user: action.user,
+        data: action.user,
         error: null,
         loading: false,
         statusCode: action.statusCode,
@@ -35,7 +35,7 @@ export const login = (state = INITIAL_STATE, action) => {
     case actionTypes.LOGOUT_SUCCESS:
       return {
         ...state,
-        user: {},
+        data: {},
         error: null,
         statusCode: null,
         isAuthenticated: false,

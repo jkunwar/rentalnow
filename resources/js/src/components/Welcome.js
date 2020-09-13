@@ -18,19 +18,23 @@ class Welcome extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.statusCode !== prevProps.statusCode) {
-            if (this.props.statusCode === 200) {
-                window.location.href = `${config.baseURI}`;
-            }
-        }
-    }
+    handleLogout = () => this.props.logout();
 
     render() {
+        const { user, isAuthenticated } = this.props
+        if (isAuthenticated) {
+            return (
+                <>
+                    <h1>{user.name}</h1>
+                    <img src={`${config.baseURI}/${user.profile_image}`} />
+                    <button onClick={this.handleLogout}>Logout</button>
+                </>
+            )
+        }
         return (
             <div style={{ width: 400, margin: '100px auto' }}>
                 <Button type="primary" loading={this.props.loading} href="/login/google">Login with Google</Button>
-            </div>
+            </div >
         );
     }
 
@@ -43,7 +47,8 @@ Welcome.propTypes = {
 const mapStateToProps = (state) => {
     return {
         loading: state.login.loading,
-        statusCode: state.login.statusCode
+        isAuthenticated: state.login.isAuthenticated,
+        user: state.login.data.user
     }
 }
 
