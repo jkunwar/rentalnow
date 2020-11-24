@@ -34,6 +34,6 @@ class RoomController extends Controller
     }
 
     public function show($id) {
-    	return User::findOrFail($id);
+    	return Room::findOrFail($id);
     }
 }

@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function () {
 
 	//get rooms
 	Route::get('rooms', 'Admin\Room\RoomController@index')->name('admin.room.index');
-	// Route::get('rooms/{room_id}', 'Admin\Room\RoomController@show')->name('admin.room.show');
+	Route::get('rooms/{room_id}', 'Admin\Room\RoomController@show')->name('admin.room.show');
 	Route::post('rooms', 'Admin\Room\RoomController@dataTablerooms')->name('admin.datatable.rooms');
 
 	//get houses
