@@ -13,12 +13,12 @@ class AmenityController extends BaseController
 {
 
     protected $amenity_transformer;
-    
+
     public function __construct(AmenityTransformer $amenityTransformer) {
         $this->amenity_transformer = $amenityTransformer;
     }
 
- /**
+    /**
         * @OA\Get(
         *     path="/amenities/{amenity_for}",
         *     tags={"Amenities"},
@@ -26,7 +26,7 @@ class AmenityController extends BaseController
         *     summary="Returns amenities for rooms or houses",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="amenity_for", in="path", description="get amenities for 'rooms' or for 'houses'", required=true,
-        *          @OA\Schema(type="string", enum={"rooms", "houses"}), 
+        *          @OA\Schema(type="string", enum={"rooms", "houses"}),
         *      ),
         *     @OA\Response(
         *         response=200,

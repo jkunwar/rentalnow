@@ -57,12 +57,8 @@ class FavouriteRoomController extends BaseController
     public function favouriteRooms() {
     	try {
     		$favourite_rooms = (new Room)->getFavouriteRooms();
-			if($favourite_rooms->count() === 0) {
-				$this->setStatusCode(Res::HTTP_NOT_FOUND);
-				return $this->respondNotFound('no records found');
-			}
 
-    		$this->setStatusCode(Res::HTTP_OK);
+            $this->setStatusCode(Res::HTTP_OK);
 	      	return $this->respondWithPagination($favourite_rooms, $this->room_transformer->transformCollection($favourite_rooms->all()), 'favourite rooms listed successfully');
     	} catch (\Exception $e) {
     		$this->setStatusCode(Res::HTTP_BAD_REQUEST);
@@ -78,7 +74,7 @@ class FavouriteRoomController extends BaseController
         *     summary="Mark room as favourite",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,
@@ -128,7 +124,7 @@ class FavouriteRoomController extends BaseController
         *     summary="Mark room as unfavourite",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,

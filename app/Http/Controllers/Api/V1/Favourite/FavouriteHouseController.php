@@ -57,11 +57,6 @@ class FavouriteHouseController extends BaseController
     public function favouriteHouses() {
         try {
             $favourite_houses = (new House)->getFavouriteHouses();
-            if($favourite_houses->count() === 0) {
-                $this->setStatusCode(Res::HTTP_NOT_FOUND);
-                return $this->respondNotFound('no records found');
-            }
-
             $this->setStatusCode(Res::HTTP_OK);
             return $this->respondWithPagination($favourite_houses, $this->house_transformer->transformCollection($favourite_houses->all()), 'favourite houses listed successfully');
         } catch (\Exception $e) {
@@ -78,7 +73,7 @@ class FavouriteHouseController extends BaseController
         *     summary="Mark house as favourite",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,
@@ -128,7 +123,7 @@ class FavouriteHouseController extends BaseController
         *     summary="Mark house as unfavourite",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,

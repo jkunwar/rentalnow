@@ -40,13 +40,13 @@ class BaseController extends Controller
         * @OA\SecurityScheme(
         *   securityScheme="Bearer_auth",
         *   type="http",
-        *   scheme="bearer", 
+        *   scheme="bearer",
         * ),
         * @OA\SecurityScheme(
         *   securityScheme="App_Key",
         *   type="apiKey",
         *   in="header",
-        *   name="X-APP-TOKEN",  
+        *   name="X-APP-TOKEN",
         * ),
     */
     /**
@@ -135,7 +135,7 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respond($data, $headers = []){
+    private function respond($data, $headers = []){
         return Response::json($data, $this->getStatusCode(), $headers);
     }
 
@@ -162,7 +162,7 @@ class BaseController extends Controller
             'message' => $message,
         ]);
     }
-    
+
     public function respondWithUnauthorized($message){
         return $this->respond([
             'error' => 'error',

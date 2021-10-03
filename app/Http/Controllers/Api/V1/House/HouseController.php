@@ -84,17 +84,12 @@ class HouseController extends BaseController
     public function index() {
     	try {
 			$houses = (new House)->getAll();
-			if($houses->count() === 0) {
-				$this->setStatusCode(Res::HTTP_NOT_FOUND);
-				return $this->respondNotFound('no records found');
-			}
-
             $this->setStatusCode(Res::HTTP_OK);
-            
+
 	      	return $this->respondWithPagination($houses, $this->house_transformer->transformCollection($houses->all()), 'houses listed successfully');
     	} catch (\Exception $e) {
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
-            
+
             return $this->respondWithError($e->getMessage());
     	}
     }
@@ -107,7 +102,7 @@ class HouseController extends BaseController
         *     summary="Returns house with mathcing ID",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,
@@ -146,7 +141,7 @@ class HouseController extends BaseController
         }
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/houses",
         *     tags={"Houses"},
@@ -239,7 +234,7 @@ class HouseController extends BaseController
         }
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/houses/{house_id}/images",
         *     tags={"Houses"},
@@ -247,7 +242,7 @@ class HouseController extends BaseController
         *     summary="upload house images",
         *     security= {{"App_Key":"","Bearer_auth":"","Provider":"",}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *       @OA\MediaType(
@@ -294,13 +289,13 @@ class HouseController extends BaseController
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
             }
-            
+
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/houses/{house_id}",
         *     tags={"Houses"},
@@ -308,7 +303,7 @@ class HouseController extends BaseController
         *     summary="update house",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -394,13 +389,13 @@ class HouseController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Delete(
         *     path="/houses/{house_id}",
         *     tags={"Houses"},
@@ -408,7 +403,7 @@ class HouseController extends BaseController
         *     summary="Delete house",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(response=200,description="house deleted successfully",
         *         @OA\JsonContent(type="object",
@@ -436,14 +431,14 @@ class HouseController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
 
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/houses/{house_id}/available",
         *     tags={"Houses"},
@@ -451,7 +446,7 @@ class HouseController extends BaseController
         *     summary="mark house as available",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -491,13 +486,13 @@ class HouseController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/houses/{house_id}/unavailable",
         *     tags={"Houses"},
@@ -505,7 +500,7 @@ class HouseController extends BaseController
         *     summary="mark house as unavailable",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="house_id", in="path", description="house id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -545,7 +540,7 @@ class HouseController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }

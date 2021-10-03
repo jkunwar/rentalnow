@@ -29,7 +29,7 @@ class LoginController extends BaseController
         $this->user_transformer = $userTransformer;
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/login",
         *     tags={"Auth"},
@@ -123,7 +123,7 @@ class LoginController extends BaseController
 
         if($validator->fails()){
             $this->setStatusCode(Res::HTTP_UNPROCESSABLE_ENTITY);
-            
+
             return $this->respondValidationError('Validation Error.', $validator->errors());
         }
 
@@ -156,14 +156,14 @@ class LoginController extends BaseController
                 $user =  (new User)->createUser($request);
                 $provider = (new Provider)->storeProvider($request, $user->id);
             }
-            
+
             // issue passport token
             $this->client = DB::table('oauth_clients')->where('password_client',1)->first();
 
             $response = $this->issueToken($request, 'password');
-            
-            $json = (array) json_decode($response->getContent()); 
-            
+
+            $json = (array) json_decode($response->getContent());
+
             if(isset($json['error'])){
                 $this->setStatusCode(Res::HTTP_UNAUTHORIZED);
                 return $this->respondWithUnauthorized($json['message']);
@@ -189,7 +189,7 @@ class LoginController extends BaseController
         if ($social == "facebook" || $social == "google" || $social == "linkedin") {
             return Socialite::driver($social)->stateless()->redirect();
         } else {
-            return Socialite::driver($social)->redirect();           
+            return Socialite::driver($social)->redirect();
         }
     }
 
@@ -198,11 +198,11 @@ class LoginController extends BaseController
             if ($social == "facebook" || $social == "google" || $social == "linkedin") {
                 $userSocial = Socialite::driver($social)->stateless()->user();
             } else {
-                $userSocial = Socialite::driver($social)->user();           
+                $userSocial = Socialite::driver($social)->user();
             }
             if($social== 'facebook') {
                 $request->request->add([
-                    'gender' => $userSocial->user['gender']     
+                    'gender' => $userSocial->user['gender']
                 ]);
             }
 
@@ -217,18 +217,18 @@ class LoginController extends BaseController
             ]);
 
             return $this->loginUser($request);
-           
+
         } catch (\Exception $e) {
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
-            
+
             return $this->respondWithError($e->getMessage());
         }
     }
 
     public function loginUser($request) {
         DB::beginTransaction();
-        
-        try {      
+
+        try {
             // check if user already exists
             $provider = (new Provider)->findByUsername($request);
             if($provider && $provider->deleted_at !== null) {
@@ -243,9 +243,9 @@ class LoginController extends BaseController
             $this->client = DB::table('oauth_clients')->where('password_client',1)->first();
 
             $response = $this->issueToken($request, 'password');
-            
-            $json = (array) json_decode($response->getContent()); 
-            
+
+            $json = (array) json_decode($response->getContent());
+
             if(isset($json['error'])){
                 $this->setStatusCode(Res::HTTP_UNAUTHORIZED);
                 return $this->respondWithUnauthorized($json['message']);
@@ -255,16 +255,16 @@ class LoginController extends BaseController
             $this->setStatusCode(Res::HTTP_OK);
 
             return $this->sendSuccessResponse($json, 'Logged In successfully')->cookie('user', $json['user'], 5, '/', null,false, false);
-        
+
         } catch (\Exception $e) {
             DB::rollBack();
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
-            
+
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/logout",
         *     tags={"Auth"},
@@ -321,11 +321,11 @@ class LoginController extends BaseController
         $accessToken->revoke();
 
         $this->setStatusCode(Res::HTTP_NO_CONTENT);
-        
+
         return $this->respondNoContent('logged out successfully');
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/tokens/refresh",
         *     tags={"Auth"},
@@ -376,16 +376,16 @@ class LoginController extends BaseController
         $this->client = DB::table('oauth_clients')->where('password_client',1)->first();
 
         $response = $this->issueToken($request, 'refresh_token');
-        
-        $json = (array) json_decode($response->getContent()); 
-        
+
+        $json = (array) json_decode($response->getContent());
+
         if(isset($json['error'])){
             $this->setStatusCode(Res::HTTP_UNAUTHORIZED);
             return $this->respondWithUnauthorized('The refresh token is invalid.');
         }
 
         $this->setStatusCode(Res::HTTP_OK);
-        
+
         return $this->sendSuccessResponse($json, 'token refreshed successfully');
     }
 }

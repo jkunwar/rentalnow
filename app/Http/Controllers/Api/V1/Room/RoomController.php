@@ -83,11 +83,6 @@ class RoomController extends BaseController
     public function index() {
     	try {
 			$rooms = (new Room)->getAll();
-			if($rooms->count() === 0) {
-				$this->setStatusCode(Res::HTTP_NOT_FOUND);
-				return $this->respondNotFound('no records found');
-			}
-
     		$this->setStatusCode(Res::HTTP_OK);
 	      	return $this->respondWithPagination($rooms, $this->room_transformer->transformCollection($rooms->all()), 'rooms listed successfully');
     	} catch (\Exception $e) {
@@ -104,7 +99,7 @@ class RoomController extends BaseController
         *     summary="Returns room with mathcing ID",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(
         *         response=200,
@@ -142,7 +137,7 @@ class RoomController extends BaseController
     	}
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/rooms",
         *     tags={"Rooms"},
@@ -230,7 +225,7 @@ class RoomController extends BaseController
         }
     }
 
-    /** 
+    /**
         *   @OA\Post(
         *     path="/rooms/{room_id}/images",
         *     tags={"Rooms"},
@@ -238,7 +233,7 @@ class RoomController extends BaseController
         *     summary="upload room images",
         *     security= {{"App_Key":"","Bearer_auth":"","Provider":"",}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *       @OA\MediaType(
@@ -290,7 +285,7 @@ class RoomController extends BaseController
         }
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/rooms/{room_id}",
         *     tags={"Rooms"},
@@ -298,7 +293,7 @@ class RoomController extends BaseController
         *     summary="update room",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -384,14 +379,14 @@ class RoomController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
 
-    /** 
+    /**
         *   @OA\Delete(
         *     path="/rooms/{room_id}",
         *     tags={"Rooms"},
@@ -399,7 +394,7 @@ class RoomController extends BaseController
         *     summary="Delete room",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\Response(response=200,description="room deleted successfully",
         *         @OA\JsonContent(type="object",
@@ -427,14 +422,14 @@ class RoomController extends BaseController
     		if ($e instanceof ModelNotFoundException) {
 	    		$this->setStatusCode(Res::HTTP_NOT_FOUND);
 	    		return $this->respondNotFound($e->getMessage());
-		    } 
+		    }
 
 	        $this->setStatusCode(Res::HTTP_BAD_REQUEST);
     		return $this->respondWithError($e->getMessage());
     	}
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/rooms/{room_id}/available",
         *     tags={"Rooms"},
@@ -442,7 +437,7 @@ class RoomController extends BaseController
         *     summary="mark room as available",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -482,13 +477,13 @@ class RoomController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
     }
 
-    /** 
+    /**
         *   @OA\Put(
         *     path="/rooms/{room_id}/unavailable",
         *     tags={"Rooms"},
@@ -496,7 +491,7 @@ class RoomController extends BaseController
         *     summary="mark room as unavailable",
         *     security= {{"App_Key":"","Bearer_auth":""}},
         *     @OA\Parameter(name="room_id", in="path", description="room id", required=true,
-        *          @OA\Schema(type="integer",), 
+        *          @OA\Schema(type="integer",),
         *      ),
         *     @OA\RequestBody(
         *         @OA\MediaType(
@@ -536,7 +531,7 @@ class RoomController extends BaseController
             if ($e instanceof ModelNotFoundException) {
                 $this->setStatusCode(Res::HTTP_NOT_FOUND);
                 return $this->respondNotFound($e->getMessage());
-            } 
+            }
             $this->setStatusCode(Res::HTTP_BAD_REQUEST);
             return $this->respondWithError($e->getMessage());
         }
