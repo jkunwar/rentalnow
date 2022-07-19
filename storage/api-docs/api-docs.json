@@ -1,0 +1,2947 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Rental now Api Documentation",
+        "termsOfService": "http://www.rentalnow.com.au/",
+        "contact": {
+            "name": "Jagdish kunwar",
+            "email": "jagdishkunwar002@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/amenities/{amenity_for}": {
+            "get": {
+                "tags": [
+                    "Amenities"
+                ],
+                "summary": "Returns amenities for rooms or houses",
+                "description": "Returns amenities for rooms or houses",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Amenity\\AmenityController::getAmenities",
+                "parameters": [
+                    {
+                        "name": "amenity_for",
+                        "in": "path",
+                        "description": "get amenities for 'rooms' or for 'houses'",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "rooms",
+                                "houses"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "house found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "findHouseById": {
+                                "operationId": "show"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login",
+                "description": "User login",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Auth\\LoginController::login",
+                "requestBody": {
+                    "description": "User login",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "name*",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "dob YYYY-mm-dd",
+                                        "type": "date",
+                                        "format": "date"
+                                    },
+                                    "email": {
+                                        "description": "email*",
+                                        "type": "string"
+                                    },
+                                    "phone_number": {
+                                        "description": "phone_number*",
+                                        "type": "number"
+                                    },
+                                    "token": {
+                                        "description": "social media token*",
+                                        "type": "string",
+                                        "format": "int64"
+                                    },
+                                    "provider": {
+                                        "description": "social media type*",
+                                        "enum": [
+                                            "google",
+                                            "facebook"
+                                        ]
+                                    },
+                                    "gender": {
+                                        "description": "user gender",
+                                        "enum": [
+                                            "male",
+                                            "female",
+                                            "other"
+                                        ]
+                                    },
+                                    "image": {
+                                        "description": "user profile image from social media",
+                                        "type": "string"
+                                    },
+                                    "device_type": {
+                                        "description": "device type*",
+                                        "enum": [
+                                            "ios",
+                                            "android"
+                                        ]
+                                    },
+                                    "device_id": {
+                                        "description": "device unique id*",
+                                        "type": "string"
+                                    },
+                                    "fcm_token": {
+                                        "description": "firebase token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "title": "name",
+                                        "description": "name",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "title": "date of birth",
+                                        "description": "YYYY-mm-dd",
+                                        "type": "date"
+                                    },
+                                    "email": {
+                                        "title": "user email",
+                                        "description": "user email",
+                                        "type": "string"
+                                    },
+                                    "phone_number": {
+                                        "title": "phone number",
+                                        "description": "phone number",
+                                        "type": "number"
+                                    },
+                                    "token": {
+                                        "title": "token",
+                                        "description": "token",
+                                        "type": "string"
+                                    },
+                                    "provider": {
+                                        "title": "provider",
+                                        "description": "provider",
+                                        "type": "string",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Google|Facebook"
+                                            ]
+                                        }
+                                    },
+                                    "gender": {
+                                        "title": "gender",
+                                        "description": "gender",
+                                        "type": "string",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": [
+                                                "male|female|other"
+                                            ]
+                                        }
+                                    },
+                                    "image": {
+                                        "title": "profile image",
+                                        "description": "profile image",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "login success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "User login": {
+                                "operationId": "login",
+                                "parameters": {
+                                    "name": "melyna.hintz",
+                                    "dob": "1994-07-27",
+                                    "email": "johndoe@email.com",
+                                    "phone_number": 1234567890,
+                                    "token": "asdasfdsgrsfdzdghgzsdgfxczxbdgbxcz",
+                                    "provider": "google|facebook",
+                                    "gender": "male|female|other",
+                                    "image": "https://google.com/user-id/user-profile-picture",
+                                    "device_type": "ios|android",
+                                    "device_id": "1cdf23123",
+                                    "fcm_token": "20cXaYfj8xSaM:APA91bHKna7n-wYz8Y5hOtG8XqYF4_fCzcdQ6-tPIgGo4rM-xk__Nor0jCRTH3fr6Ha9PbkivKyMyh1y7RAPpFR5j8S5LYpvG8r3chU-a9j1e6ZnwfBNtZeXapQDmn46jiFcOWy79Uav"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": ""
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logout",
+                "description": "logout",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Auth\\LoginController::logout",
+                "requestBody": {
+                    "description": "User logout",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "fcm_token": {
+                                        "title": "fcm_token",
+                                        "description": "fcm_token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "logout success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "UserLogout": {
+                                "operationId": "LogoutUser",
+                                "parameters": {
+                                    "fcm_token": "XYZasbhkabdsfkhabvka.."
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/tokens/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "refresh-token",
+                "description": "refresh token",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Auth\\LoginController::refreshToken",
+                "requestBody": {
+                    "description": "refresh-token",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "refresh_token": {
+                                        "description": "refresh token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "refresh_token": {
+                                        "title": "refresh_token",
+                                        "description": "refresh_token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "refresh token success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "refreshToken": {
+                                "operationId": "refresh-token",
+                                "parameters": {
+                                    "refresh_token": "measdasdlcascascyna.asdadasfafasdscas"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Provider": ""
+                    }
+                ]
+            }
+        },
+        "/device/tokens": {
+            "post": {
+                "tags": [
+                    "Device Info"
+                ],
+                "summary": "store user's device info",
+                "description": "store user's device info",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Device\\DeviceController::store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "fcm_token": {
+                                        "description": "firebase token",
+                                        "type": "string"
+                                    },
+                                    "device_id": {
+                                        "description": "device unique id",
+                                        "type": "string"
+                                    },
+                                    "device_type": {
+                                        "description": "device_type",
+                                        "type": "string",
+                                        "enum": [
+                                            "android|ios"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "device info saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "storeDeviceInfo": {
+                                "operationId": "storeDeviceInfo",
+                                "parameters": {
+                                    "fcm_token": "dYzlgDI01Pw:APA91bGnaPiRaq3nHo6f1M8MAuRMoolBkY-WqkMvn9U0DWMupwqmU_V24sqo_2ROcBlPASYoZM5lzzH16fod__IYHi65FEu6t7dBE3NIczFF_KXkPX0gfdPY1Rnn-goqi6B55gIjMAMd",
+                                    "device_id": "4c402fccc0a4de16e890",
+                                    "device_type": "android|ios"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses/favourites": {
+            "get": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Returns favourite houses",
+                "description": "Returns favourite houses",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteHouseController::favouriteHouses",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "favourite houses listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "favouriteHouses": {
+                                "operationId": "index"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses/{house_id}/favourites": {
+            "post": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Mark house as favourite",
+                "description": "Mark house as favourite",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteHouseController::makeHouseFavourite",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "house saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "SaveHouse": {
+                                "operationId": "makeHouseFavourite"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Mark house as unfavourite",
+                "description": "Mark house as unfavourite",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteHouseController::deleteFavouriteHouse",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "house removed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "RemoveFavouriteHouse": {
+                                "operationId": "deleteFavouriteHouse"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/favourites": {
+            "get": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Returns favourit room",
+                "description": "Returns favourit room",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteRoomController::favouriteRooms",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "favourite rooms listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "favouriteRooms": {
+                                "operationId": "index"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/{room_id}/favourites": {
+            "post": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Mark room as favourite",
+                "description": "Mark room as favourite",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteRoomController::makeRoomFavourite",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "room saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "SaveRoom": {
+                                "operationId": "makeRoomFavourite"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Mark room as unfavourite",
+                "description": "Mark room as unfavourite",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Favourite\\FavouriteRoomController::deleteFavouriteRoom",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "room removed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "RemoveFavouriteRoom": {
+                                "operationId": "deleteFavouriteRoom"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses": {
+            "get": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "Returns houses",
+                "description": "Returns houses",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::index",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "description": "minimun rent",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "description": "maximum rent",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "pets_allowed",
+                        "in": "query",
+                        "description": "pet allowed",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "radius",
+                        "in": "query",
+                        "description": "radius in kilometer",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "latitude",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "lng",
+                        "in": "query",
+                        "description": "longitude",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "rent order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "rent_asc",
+                                "rent_desc",
+                                "latest",
+                                "oldest"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "rooms listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Rooms": {
+                                "operationId": "index"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "post new house",
+                "description": "post new house",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "title",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "currency",
+                                        "type": "string",
+                                        "enum": [
+                                            "AUD|USD"
+                                        ]
+                                    },
+                                    "rent": {
+                                        "description": "rent",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "description",
+                                        "type": "string"
+                                    },
+                                    "bedrooms": {
+                                        "description": "bedrooms",
+                                        "type": "string",
+                                        "enum": [
+                                            "studio|1|2|3|4|5|6|7|8"
+                                        ]
+                                    },
+                                    "bathrooms": {
+                                        "description": "bathrooms",
+                                        "type": "number"
+                                    },
+                                    "mesurement": {
+                                        "description": "mesurement",
+                                        "type": "number"
+                                    },
+                                    "measurement_unit": {
+                                        "description": "measurement_unit",
+                                        "type": "string",
+                                        "enum": [
+                                            "square meter|square feet"
+                                        ]
+                                    },
+                                    "furnished": {
+                                        "description": "furnished",
+                                        "type": "boolean"
+                                    },
+                                    "pets_allowed": {
+                                        "description": "pets allowed",
+                                        "type": "boolean"
+                                    },
+                                    "address": {
+                                        "description": "room address",
+                                        "properties": {
+                                            "location_id": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "latitude": {
+                                                "type": "double"
+                                            },
+                                            "longitude": {
+                                                "type": "double"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "amenities": {
+                                        "type": "array",
+                                        "items": {
+                                            "title": "amenities",
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "house created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "StoreNewHouse": {
+                                "operationId": "store",
+                                "parameters": {
+                                    "title": "title here",
+                                    "currency": "AUD",
+                                    "rent": 2000,
+                                    "description": "description here",
+                                    "bedrooms": "studio|1|2|3|4|5",
+                                    "bathroom": "2",
+                                    "measurement": 20,
+                                    "measurement_unit": "square meter|square feet",
+                                    "furnished": true,
+                                    "pets_allowed": true,
+                                    "address": {
+                                        "location_id": "ChIJGR3PtqsZ6zkRJZNczERbP-U",
+                                        "location": "Nepal Tourism Board, Pradarshani Marg, Kathmandu, Nepal",
+                                        "latitude": 27.7018982,
+                                        "longitude": 85.31700120000005
+                                    },
+                                    "amenities": "[1, 2, 3]"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses/{house_id}": {
+            "get": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "Returns house with mathcing ID",
+                "description": "Returns house with mathcing ID",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::show",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "house found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "findHouseById": {
+                                "operationId": "show"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "update house",
+                "description": "update house",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::update",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "title",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "currency",
+                                        "type": "string"
+                                    },
+                                    "rent": {
+                                        "description": "rent",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "description",
+                                        "type": "string"
+                                    },
+                                    "bedrooms": {
+                                        "description": "bedrooms",
+                                        "type": "string",
+                                        "enum": [
+                                            "studio|1|2|3|4|5|6"
+                                        ]
+                                    },
+                                    "bathrooms": {
+                                        "description": "bathrooms",
+                                        "type": "number"
+                                    },
+                                    "measurement": {
+                                        "description": "measurement",
+                                        "type": "number"
+                                    },
+                                    "m_unit": {
+                                        "description": "measurement_unit",
+                                        "type": "string",
+                                        "enum": [
+                                            "square meter|square feet"
+                                        ]
+                                    },
+                                    "furnished": {
+                                        "description": "furnished",
+                                        "type": "boolean"
+                                    },
+                                    "pets_allowed": {
+                                        "description": "pets_allowed",
+                                        "type": "boolean"
+                                    },
+                                    "address": {
+                                        "description": "room address",
+                                        "properties": {
+                                            "country": {
+                                                "type": "string"
+                                            },
+                                            "country_code": {
+                                                "type": "string"
+                                            },
+                                            "location_id": {
+                                                "type": "string"
+                                            },
+                                            "state": {
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "type": "string"
+                                            },
+                                            "postal_code": {
+                                                "type": "number"
+                                            },
+                                            "latitude": {
+                                                "type": "double"
+                                            },
+                                            "longitude": {
+                                                "type": "double"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "amenities": {
+                                        "type": "array",
+                                        "items": {
+                                            "title": "amenities",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update house success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "updateRoom": {
+                                "operationId": "update",
+                                "parameters": {
+                                    "title": "title here",
+                                    "currency": "aud",
+                                    "rent": 2000,
+                                    "description": "description here",
+                                    "bedrooms": "studio|1|2|3|4|5",
+                                    "bathroom": "2",
+                                    "measurement": 20,
+                                    "m_unit": "square meter|square feet",
+                                    "furnished": true,
+                                    "pets_allowed": true,
+                                    "address": {
+                                        "country": "Nepal",
+                                        "country_code": "NP",
+                                        "location_id": "ChIJGR3PtqsZ6zkRJZNczERbP-U",
+                                        "state": "Central Development Region",
+                                        "address": "Nepal Tourism Board, Pradarshani Marg, Kathmandu, Nepal",
+                                        "latitude": 27.7018982,
+                                        "longitude": 85.31700120000005,
+                                        "postal_code": 44600
+                                    },
+                                    "amenities": "[1, 3, 5]",
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "Delete house",
+                "description": "Delete house",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::delete",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "house deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "delete": {
+                                "operationId": "deleteHouse",
+                                "parameters": {
+                                    "id": 1
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses/{house_id}/images": {
+            "post": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "upload house images",
+                "description": "upload house images",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::storeImages",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "image",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "upload item image success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "uploadImage": {
+                                "operationId": "storeImage",
+                                "parameters": {
+                                    "image": "public/images/3.jpg"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": "",
+                        "Provider": ""
+                    }
+                ]
+            }
+        },
+        "/houses/{house_id}/available": {
+            "put": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "mark house as available",
+                "description": "mark house as available",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::markAvailable",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update house success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "markAvailable": {
+                                "operationId": "markAvailable",
+                                "parameters": {
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/houses/{house_id}/unavailable": {
+            "put": {
+                "tags": [
+                    "Houses"
+                ],
+                "summary": "mark house as unavailable",
+                "description": "mark house as unavailable",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\House\\HouseController::markUnavailable",
+                "parameters": [
+                    {
+                        "name": "house_id",
+                        "in": "path",
+                        "description": "house id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update house success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "markUnavailable": {
+                                "operationId": "markUnavailable",
+                                "parameters": {
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/messages": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Returns user contacts",
+                "description": "Returns user contacts",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Message\\MessageController::getMessages",
+                "responses": {
+                    "200": {
+                        "description": "user contacts fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Message": {
+                                "operationId": "getMessages"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/messages/{user_id}": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Returns messages of user with matching ID",
+                "description": "Returns messages of user with matching ID",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Message\\MessageController::getUserMessage",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "messages fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Message": {
+                                "operationId": "getUserMessage"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Send message",
+                "description": "Send message",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Message\\MessageController::sendMessage",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User login",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "description": "message",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "title": "message",
+                                        "description": "message",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "message sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Message": {
+                                "operationId": "sendMessage",
+                                "parameters": {
+                                    "message": "hi! there"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Returns rooms",
+                "description": "Returns rooms",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::index",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "description": "minimun rent",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "description": "maximum rent",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "pets_allowed",
+                        "in": "query",
+                        "description": "pet allowed",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "radius",
+                        "in": "query",
+                        "description": "radius in kilometer",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "latitude",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "lng",
+                        "in": "query",
+                        "description": "longitude",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "rent order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "rent_asc",
+                                "rent_desc",
+                                "latest",
+                                "oldest"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "rooms listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Rooms": {
+                                "operationId": "index"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "post new room",
+                "description": "post new room",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "title",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "currency",
+                                        "type": "string",
+                                        "enum": [
+                                            "USD|AUD"
+                                        ]
+                                    },
+                                    "rent": {
+                                        "description": "rent",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "description",
+                                        "type": "string"
+                                    },
+                                    "building_type": {
+                                        "description": "building _type",
+                                        "type": "string",
+                                        "enum": [
+                                            "apartment building (1-10 units)|apartment building(10+units)|apartment complex|house"
+                                        ]
+                                    },
+                                    "move_in_fee": {
+                                        "description": "move_in_fee",
+                                        "type": "number"
+                                    },
+                                    "utilities_cost": {
+                                        "description": "utilities_cost",
+                                        "type": "number"
+                                    },
+                                    "parking_rent": {
+                                        "description": "parking_rent",
+                                        "type": "number"
+                                    },
+                                    "furnished": {
+                                        "description": "furnished",
+                                        "type": "boolean"
+                                    },
+                                    "pets_allowed": {
+                                        "description": "pets_allowed",
+                                        "type": "boolean"
+                                    },
+                                    "address": {
+                                        "description": "room address",
+                                        "properties": {
+                                            "location_id": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "latitude": {
+                                                "type": "double"
+                                            },
+                                            "longitude": {
+                                                "type": "double"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "amenities": {
+                                        "type": "array",
+                                        "items": {
+                                            "title": "amenities",
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "room created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "StoreNewRoom": {
+                                "operationId": "store",
+                                "parameters": {
+                                    "title": "title here",
+                                    "currency": "AUD",
+                                    "rent": 700,
+                                    "description": "description here",
+                                    "building_type": "apartment building (1-10 units)|apartment building(10+units)|apartment complex|house",
+                                    "move_in_fee": 300,
+                                    "utilities_cost": 100,
+                                    "parking_rent": 100,
+                                    "is_furnished": true,
+                                    "pets_allowed": false,
+                                    "address": {
+                                        "location_id": "ChIJGR3PtqsZ6zkRJZNczERbP-U",
+                                        "location": "Nepal Tourism Board, Pradarshani Marg, Kathmandu, Nepal",
+                                        "latitude": 27.7018982,
+                                        "longitude": 85.31700120000005
+                                    },
+                                    "amenities": "[1, 2, 3]"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/{room_id}": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Returns room with mathcing ID",
+                "description": "Returns room with mathcing ID",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::show",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "room found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "finRoomById": {
+                                "operationId": "show"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "update room",
+                "description": "update room",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::update",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "title",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "currency",
+                                        "type": "string"
+                                    },
+                                    "rent": {
+                                        "description": "rent",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "description",
+                                        "type": "string"
+                                    },
+                                    "building_type": {
+                                        "description": "building _type",
+                                        "type": "string",
+                                        "enum": [
+                                            "apartment building (1-10 units)|apartment building(10+units)|apartment complex|house"
+                                        ]
+                                    },
+                                    "move_in_fee": {
+                                        "description": "move_in_fee",
+                                        "type": "number"
+                                    },
+                                    "utilities_cost": {
+                                        "description": "utilities_cost",
+                                        "type": "number"
+                                    },
+                                    "parking_rent": {
+                                        "description": "parking_rent",
+                                        "type": "number"
+                                    },
+                                    "is_furnished": {
+                                        "description": "is_furnished",
+                                        "type": "boolean"
+                                    },
+                                    "pets_allowed": {
+                                        "description": "pets_allowed",
+                                        "type": "boolean"
+                                    },
+                                    "address": {
+                                        "description": "room address",
+                                        "properties": {
+                                            "country": {
+                                                "type": "string"
+                                            },
+                                            "country_code": {
+                                                "type": "string"
+                                            },
+                                            "location_id": {
+                                                "type": "string"
+                                            },
+                                            "state": {
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "type": "string"
+                                            },
+                                            "postal_code": {
+                                                "type": "number"
+                                            },
+                                            "latitude": {
+                                                "type": "double"
+                                            },
+                                            "longitude": {
+                                                "type": "double"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "amenities": {
+                                        "type": "array",
+                                        "items": {
+                                            "title": "amenities",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update room success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "updateRoom": {
+                                "operationId": "update",
+                                "parameters": {
+                                    "title": "title here",
+                                    "currency": "aud",
+                                    "rent": 700,
+                                    "description": "description here",
+                                    "building_type": "apartment building (1-10 units)|apartment building(10+units)|apartment complex|house",
+                                    "move_in_fee": 300,
+                                    "utilities_cost": 100,
+                                    "parking_rent": 100,
+                                    "is_furnished": true,
+                                    "pets_allowed": false,
+                                    "address": {
+                                        "country": "Nepal",
+                                        "country_code": "NP",
+                                        "location_id": "ChIJGR3PtqsZ6zkRJZNczERbP-U",
+                                        "state": "Central Development Region",
+                                        "address": "Nepal Tourism Board, Pradarshani Marg, Kathmandu, Nepal",
+                                        "latitude": 27.7018982,
+                                        "longitude": 85.31700120000005,
+                                        "postal_code": 44600
+                                    },
+                                    "amenities": "[1, 2, 3]",
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Delete room",
+                "description": "Delete room",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::delete",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "room deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "delete": {
+                                "operationId": "deleteRoom",
+                                "parameters": {
+                                    "id": 1
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/{room_id}/images": {
+            "post": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "upload room images",
+                "description": "upload room images",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::storeImages",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "image",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "upload item image success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "uploadImage": {
+                                "operationId": "storeImage",
+                                "parameters": {
+                                    "image": "public/images/3.jpg"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": "",
+                        "Provider": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/{room_id}/available": {
+            "put": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "mark room as available",
+                "description": "mark room as available",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::markAvailable",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update room success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "markAvailable": {
+                                "operationId": "markAvailable",
+                                "parameters": {
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/rooms/{room_id}/unavailable": {
+            "put": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "mark room as unavailable",
+                "description": "mark room as unavailable",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\Room\\RoomController::markUnavailable",
+                "parameters": [
+                    {
+                        "name": "room_id",
+                        "in": "path",
+                        "description": "room id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update room success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "markUnavailable": {
+                                "operationId": "markUnavailable",
+                                "parameters": {
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Returns user with mathcing ID",
+                "description": "Returns user with mathcing ID",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\User\\UserController::show",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "getUserById": {
+                                "operationId": "show"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "update user",
+                "description": "update user",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\User\\UserController::update",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "name",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "move in date (YYYY-mm-dd)",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "gender": {
+                                        "description": "gender _type",
+                                        "type": "string",
+                                        "enum": [
+                                            "male|female|other"
+                                        ]
+                                    },
+                                    "phone_number": {
+                                        "description": "phone_number",
+                                        "type": "number"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "address": {
+                                        "description": "room address",
+                                        "properties": {
+                                            "location_id": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "latitude": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "longitude": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "_method": {
+                                        "description": "Add PUT in the field to update",
+                                        "type": "string",
+                                        "enum": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update user success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "upateUser": {
+                                "operationId": "update",
+                                "parameters": {
+                                    "name": "john doe",
+                                    "phone_number": "9087654321",
+                                    "email": "john@email.com",
+                                    "dob": "2020-05-28",
+                                    "gender": "male|female|other",
+                                    "address": {
+                                        "location_id": "ChIJGR3PtqsZ6zkRJZNczERbP-U",
+                                        "location": "Nepal Tourism Board, Pradarshani Marg, Kathmandu, Nepal",
+                                        "latitude": 27.7018982,
+                                        "longitude": 85.31700120000005
+                                    },
+                                    "_method": "PUT"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/users/{user_id}/rooms": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Returns user's room",
+                "description": "Returns user's rooms",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\User\\UserController::getUserRooms",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's rooms listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Rooms": {
+                                "operationId": "getUserRooms"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/users/{user_id}/houses": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Returns user's room",
+                "description": "Returns user's houses",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\User\\UserController::getUserHouses",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "the number of items to skip",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's houses listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Rooms": {
+                                "operationId": "getUserRooms"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        },
+        "/users/{user_id}/images": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user profile picture",
+                "description": "Update user profile picture",
+                "operationId": "AppuserImageUpload",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image Uplaod successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "links": {
+                            "Update Profile Picture": {
+                                "operationId": "updateProfileImage",
+                                "parameters": {
+                                    "image": "image.jpg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Image Uplaod Failed"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "App_Key": "",
+                        "Bearer_auth": ""
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "Bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            },
+            "App_Key": {
+                "type": "apiKey",
+                "name": "X-APP-TOKEN",
+                "in": "header"
+            }
+        }
+    }
+}
