@@ -7,7 +7,7 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
         'title' => $faker->sentence,
         'user_id' => $faker->numberBetween($min =1, $max = 500),
         'address_id' => $faker->numberBetween($min = 1, $max = 200),
-        'currency' => $faker->randomElement($array = array('AUD','USD')),
+        'currency' => $faker->randomElement($array = array('AUD','USD','CAD')),
         'rent' => $faker->numberBetween($min = 300, $max = 1500),
         'move_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'leave_date' => $faker->date($format = 'Y-m-d', $max = 'now'),

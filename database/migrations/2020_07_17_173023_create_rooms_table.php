@@ -23,7 +23,7 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses');
 
-            $table->enum('currency', ['AUD','USD']);
+            $table->enum('currency', ['AUD','USD','CAD']);
             $table->integer('rent');
             $table->date('move_date')->nullable();
             $table->boolean('long_term')->nullable();
