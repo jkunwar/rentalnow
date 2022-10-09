@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware'=>['api', 'app.authorize'],'prefix'=>'/v1',  'namespace' => 'Api\V1\Auth'], function(){
+Route::group(['middleware'=>['api'],'prefix'=>'/v1',  'namespace' => 'Api\V1\Auth'], function(){
     Route::post('/login', 'LoginController@login');
     Route::post('/tokens/refresh', 'LoginController@refreshToken');
 
 	// Route::post('/login/{social}/callback','LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
 });
 
-Route::group(['middleware' => ['auth:api', 'app.authorize'], 'prefix' => '/v1', 'namespace' => 'Api\V1'], function() {
+Route::group(['middleware' => ['auth:api'], 'prefix' => '/v1', 'namespace' => 'Api\V1'], function() {
 	//users
 	Route::put('/users/{user_id}', 'User\UserController@update');
 	Route::post('/users/{user_id}/images', 'User\UserController@updateProfileImage');
@@ -62,11 +62,11 @@ Route::group(['middleware' => ['auth:api', 'app.authorize'], 'prefix' => '/v1', 
 	Route::get('/messages/{user_id}', 'Message\MessageController@getUserMessage');
 	Route::post('/messages/{user_id}', 'Message\MessageController@sendMessage');
 
-	// logout
+	//logout
 	Route::post('/logout','Auth\LoginController@logout');
 });
 
-Route::group(['middleware'=>['api', 'app.authorize'],'prefix'=>'/v1',  'namespace' => 'Api\V1'], function(){
+Route::group(['middleware'=>['api'],'prefix'=>'/v1',  'namespace' => 'Api\V1'], function(){
 	Route::get('/suggestions', 'Search\SearchController@getSuggestions');
 	Route::get('/search/{location_id}', 'Search\SearchController@getLatLngFromLocationId');
 
@@ -75,14 +75,14 @@ Route::group(['middleware'=>['api', 'app.authorize'],'prefix'=>'/v1',  'namespac
 	Route::get('/users/{user_id}/rooms', 'User\UserController@getUserRooms');
 	Route::get('/users/{user_id}/houses', 'User\UserController@getUserHouses');
 
-	// fetch amenities
+	//amenities
 	Route::get('/amenities/{amenity_for}', 'Amenity\AmenityController@getAmenities');
 
-	// fetch rooms
+	//rooms
 	Route::get('/rooms', 'Room\RoomController@index');
 	Route::get('/rooms/{room_id}', 'Room\RoomController@show');
 
-	// fetch houses
+	//houses
 	Route::get('/houses', 'House\HouseController@index');
 	Route::get('/houses/{house_id}', 'House\HouseController@show');
 });

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Traits;
 
@@ -7,20 +7,18 @@ use App\Exceptions\SocialMediaValidationException;
 trait GoogleValidation {
     public function validateGoogleToken($token, $device_type) {
         try {
-            $CLIENT_ID = env('GOOGLE_CLIENT_ID_IOS'); //client id for iOS
-            if($device_type === 'android') {
-                $CLIENT_ID =  env('GOOGLE_CLIENT_ID_ANDROID'); //client id for android
-            }
+            $device_type == 'android' ? $CLIENT_ID =  env('GOOGLE_CLIENT_ID_ANDROID') : $CLIENT_ID = env('GOOGLE_CLIENT_ID_IOS');
             $client = new \Google_Client(['client_id' => $CLIENT_ID]);
             $payload = $client->verifyIdToken($token);
-            if ($payload) {
-                return $userid = $payload['sub'];
-            } else {
-                throw new SocialMediaValidationException('social media validation failed');
+            if (!$payload) {
+                throw new SocialMediaValidationException('Social media validation failed');
             }
+
+            return $userid = $payload['sub'];
         } catch (\Exception $e) {
-            throw new SocialMediaValidationException($e->getMessage());
-        }        
+            $errorMessage = $e->getMessage();
+            throw new SocialMediaValidationException("$errorMessage");
+        }
     }
 }
 
