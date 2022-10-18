@@ -1,12 +1,14 @@
-<?php 
+<?php
 
 namespace App\Repository\Transformers\Amenity;
 
 use App\Repository\Transformers\Transformer;
 
-class AmenityTransformer extends Transformer {
+class AmenityTransformer extends Transformer
+{
 
-	public function transform($amenity) {
+	public function transform($amenity)
+	{
 		return [
 			'id'	=> $amenity->id,
 			'title' => $amenity->title,

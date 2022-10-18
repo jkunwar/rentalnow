@@ -10,10 +10,11 @@ class Amenity extends Model
     use SoftDeletes;
 
     protected $hidden = ['pivot'];
-    
-    public function getAmenities($amenityFor) {
+
+    public function getAmenities($amenityFor)
+    {
         $amenities = Amenity::where('amenity_for', $amenityFor)
-        			->orWhere('amenity_for', 'both')->get();
+            ->orWhere('amenity_for', 'both')->get();
         return $amenities;
     }
 }

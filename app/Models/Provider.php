@@ -16,41 +16,44 @@ class Provider extends Model
      * @var array
      */
     protected $hidden = [
-       'password', 'username',
+        'password', 'username',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function findByUsername($request) {
+    public function findByUsername($request)
+    {
         return Provider::where([['username', $request->username], ['provider', $request->provider]])
-                        ->join('users', 'providers.user_id', 'users.id')
-                        ->first();
+            ->join('users', 'providers.user_id', 'users.id')
+            ->first();
     }
 
-    public function storeProvider($request, $userId) {
+    public function storeProvider($request, $userId)
+    {
         $provider = $this->ifProviderExists($request->provider, $userId);
-        if(!$provider) {
+        if (!$provider) {
             $provider = new Provider;
             $provider->user_id = $userId;
             $provider->token = $request->token;
             $provider->provider = $request->provider;
             $provider->username = $request->username;
             $provider->password = bcrypt($request->password);
-            if(isset($request->email)){
+            if (isset($request->email)) {
                 $provider->email = $request->email;
             }
-            if(isset($request->phone_number)) {
+            if (isset($request->phone_number)) {
                 $provider->phone_number = $request->phone_number;
             }
             $provider->save();
-        }else {
+        } else {
             $provider->token = $request->token;
-            if($request->email) {
+            if ($request->email) {
                 $provider->email = $request->email;
             }
-            if($request->phone_number) {
+            if ($request->phone_number) {
                 $provider->phone_number = $request->phone_number;
             }
             $provider->save();
@@ -58,17 +61,19 @@ class Provider extends Model
         return $provider;
     }
 
-    public function ifProviderExists($provider, $userId) {
-        return Provider::where([['user_id', $userId],['provider', $provider]])->first();
+    public function ifProviderExists($provider, $userId)
+    {
+        return Provider::where([['user_id', $userId], ['provider', $provider]])->first();
     }
 
-    public function updateEmailPhone($data) {
+    public function updateEmailPhone($data)
+    {
         $provider = Provider::where('user_id', auth()->user()->id)->first();
-        if($provider) {
-            if($data->email) {
+        if ($provider) {
+            if ($data->email) {
                 $provider->email = $data->email;
             }
-            if($data->phone_number) {
+            if ($data->phone_number) {
                 $provider->phone_number = $data->phone_number;
             }
             $provider->save();

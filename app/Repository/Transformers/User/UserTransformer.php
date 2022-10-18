@@ -1,12 +1,14 @@
-<?php 
+<?php
 
 namespace App\Repository\Transformers\User;
 
 use App\Repository\Transformers\Transformer;
 
-class UserTransformer extends Transformer {
+class UserTransformer extends Transformer
+{
 
-	public function transform($user) {
+	public function transform($user)
+	{
 		return [
 			'id'	=> $user->id,
 			'name' => $user->name,

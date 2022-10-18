@@ -6,7 +6,6 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Intervention\Image\ImageManagerStatic as Img;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -42,35 +41,43 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function findForPassport($identifier) {
-        return $this->join('providers', 'users.id', 'providers.user_id')->where('providers.username', $identifier)->select('users.id', 'providers.username','providers.password')->first();
+    public function findForPassport($identifier)
+    {
+        return $this->join('providers', 'users.id', 'providers.user_id')->where('providers.username', $identifier)->select('users.id', 'providers.username', 'providers.password')->first();
     }
 
-    public function address() {
+    public function address()
+    {
         return $this->belongsTo('App\Models\Address');
     }
 
-    public function favouriteRooms() {
-        return $this->belongsToMany('App\Models\FavouriteRoom','favourite_rooms', 'user_id', 'room_id')->withTimeStamps();
+    public function favouriteRooms()
+    {
+        return $this->belongsToMany('App\Models\FavouriteRoom', 'favourite_rooms', 'user_id', 'room_id')->withTimeStamps();
     }
 
-    public function rooms() {
+    public function rooms()
+    {
         return $this->hasMany('App\Models\Room');
     }
 
-    public function houses() {
+    public function houses()
+    {
         return $this->hasMany('App\Models\House');
     }
 
-    public function favouriteHouses() {
-        return $this->belongsToMany('App\Models\FavouriteHouse','favourite_houses', 'user_id', 'house_id')->withTimeStamps();
+    public function favouriteHouses()
+    {
+        return $this->belongsToMany('App\Models\FavouriteHouse', 'favourite_houses', 'user_id', 'house_id')->withTimeStamps();
     }
 
-    public function favourites() {
-        return $this->belongsToMany('App\Models\Favourite','favourites', 'user_id', 'property_id')->withTimeStamps();
+    public function favourites()
+    {
+        return $this->belongsToMany('App\Models\Favourite', 'favourites', 'user_id', 'property_id')->withTimeStamps();
     }
 
-    public function findUserById($id) {
+    public function findUserById($id)
+    {
         $user = User::find($id);
         if (!$user) {
             throw new ModelNotFoundException('User not found');
@@ -78,62 +85,66 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         $user = User::where('users.id', $id)
-                ->leftJoin('addresses', 'users.address_id','addresses.id')
-                ->join('providers', 'users.id', 'providers.user_id')
-                ->select('users.*', 'providers.phone_number', 'providers.email', 'addresses.location', 'addresses.location_id','addresses.latitude', 'addresses.longitude')
-                ->first();
+            ->leftJoin('addresses', 'users.address_id', 'addresses.id')
+            ->join('providers', 'users.id', 'providers.user_id')
+            ->select('users.*', 'providers.phone_number', 'providers.email', 'addresses.location', 'addresses.location_id', 'addresses.latitude', 'addresses.longitude')
+            ->first();
         if (!$user) {
             throw new ModelNotFoundException('User not found');
         }
         return $user;
     }
 
-    public function createUser($data) {
+    public function createUser($data)
+    {
         $user = new User;
         $user->name = $data->name;
-        if($data->dob) {
+        if ($data->dob) {
             $user->dob = $data->dob;
         }
 
-        if($data->gender) {
+        if ($data->gender) {
             $user->gender = $data->gender;
         }
-            
-        if($data->image) {
+
+        if ($data->image) {
             $user->profile_image = $this->saveImageFromExternalLink($data->image);
         }
         $user->save();
         return $user;
     }
 
-    public function saveImageFromExternalLink($imageUrl) {
+    public function saveImageFromExternalLink($imageUrl)
+    {
         $contents = file_get_contents($imageUrl);
         $file_name = date('ymdhis');
-        $file_name_to_store = $file_name.'.png';
-        $name = 'public/images/user/'.$file_name_to_store;
+        $file_name_to_store = $file_name . '.png';
+        $name = 'public/images/user/' . $file_name_to_store;
         Storage::put($name, $contents);
-        $user_image = 'storage/images/user/'.$file_name_to_store;
+        $user_image = 'storage/images/user/' . $file_name_to_store;
         return $user_image;
     }
 
-    public function updateUser($data, $address=null) {
+    public function updateUser($data, $address = null)
+    {
         $user_id = auth()->user()->id;
         $user = $this->findUserById($user_id);
-        if($data->name) {
+        if ($data->name) {
             $user->name = $data->name;
         }
-        if($data->gender) {
+        if ($data->gender) {
             $user->gender = $data->gender;
         }
-        if($data->dob) {
+        if ($data->dob) {
             $user->dob = $data->dob;
         }
-        if($address) {
-           $user->address_id = $address->id;
+        if ($address) {
+            $user->address_id = $address->id;
         }
-        if($data->email || $data->phone_number) {
+        if ($data->email || $data->phone_number) {
             (new Provider)->updateEmailPhone($data);
         }
         $user->save();
@@ -141,44 +152,47 @@ class User extends Authenticatable
         return $this->getUserById($user->id);
     }
 
-    public function changeProfilePicture($request) {
-        if($request->hasFile('image')) {
+    public function changeProfilePicture($request)
+    {
+        if ($request->hasFile('image')) {
             $user_id = auth()->user()->id;
             $this->deleteProfileImage($user_id);
 
             $file_name = date('ymdhis');
             $extname = $request->file('image')->getClientOriginalExtension();
-            $file_name_to_store = $file_name.'.'.$extname;
-            $path = $request->file('image')->storeAs('public/images/user',$file_name_to_store);
-            
+            $file_name_to_store = $file_name . '.' . $extname;
+            $path = $request->file('image')->storeAs('public/images/user', $file_name_to_store);
+
             $img = Img::make($request->file('image')->getRealPath());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-            Storage::put('public/thumbnails/user/small_'.$file_name_to_store, (string) $img->encode());
+            Storage::put('public/thumbnails/user/small_' . $file_name_to_store, (string) $img->encode());
             $user = $this->findUserById($user_id);
-            $user->profile_image = 'storage/images/user/'.$file_name_to_store;
+            $user->profile_image = 'storage/images/user/' . $file_name_to_store;
             $user->save();
 
             $user = $this->getUserById($user_id);
             return $user;
-        }   
-    }
-
-    public function deleteProfileImage($userId) {
-        $image = User::where([['id', $userId], ['profile_image', '!=' ,null]])->first();
-        if($image) {
-            $image_name = explode('/', $image->profile_image);
-            @unlink('storage/images/user/'.$image_name[3]);
-            @unlink('storage/thumbnails/user/small_'.$image_name[3]);
         }
     }
 
-    public function userDataTableQuery() {
+    public function deleteProfileImage($userId)
+    {
+        $image = User::where([['id', $userId], ['profile_image', '!=', null]])->first();
+        if ($image) {
+            $image_name = explode('/', $image->profile_image);
+            @unlink('storage/images/user/' . $image_name[3]);
+            @unlink('storage/thumbnails/user/small_' . $image_name[3]);
+        }
+    }
+
+    public function userDataTableQuery()
+    {
         $query = User::select('users.*')
-                    ->withCount('rooms as total_rooms')
-                    ->withCount('houses as total_houses');
+            ->withCount('rooms as total_rooms')
+            ->withCount('houses as total_houses');
         return $query;
     }
 }

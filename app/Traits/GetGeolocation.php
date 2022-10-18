@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Traits;
 
 use App\Exceptions\GeoLocationException;
 
-trait GetGeolocation {
+trait GetGeolocation
+{
 
-	public function getLocation($locationId) {
+    public function getLocation($locationId)
+    {
         try {
-            $geocoder_api = 'http://geocoder.api.here.com/6.2/geocode.json?locationid='.$locationId.'&jsonattributes=1&gen=9&app_id=kbyNs2CXP9UcEavAe3xt&app_code=xDFG9tDcVJyLzrvb8oMRHQ';
+            $geocoder_api = 'http://geocoder.api.here.com/6.2/geocode.json?locationid=' . $locationId . '&jsonattributes=1&gen=9&app_id=kbyNs2CXP9UcEavAe3xt&app_code=xDFG9tDcVJyLzrvb8oMRHQ';
             $result = json_decode(file_get_contents($geocoder_api), true);
             $view = $result['response']['view'][0]['result'][0]['location'];
             $location['location_id'] = $locationId;
@@ -22,10 +25,11 @@ trait GetGeolocation {
             throw new GeoLocationException($e->getMessage());
         }
     }
-    
-    public function getSuggestionLists($query) {
+
+    public function getSuggestionLists($query)
+    {
         try {
-            $geocoder_api = 'http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id=kbyNs2CXP9UcEavAe3xt&app_code=xDFG9tDcVJyLzrvb8oMRHQ&query='.$query;
+            $geocoder_api = 'http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id=kbyNs2CXP9UcEavAe3xt&app_code=xDFG9tDcVJyLzrvb8oMRHQ&query=' . $query;
             $result = json_decode(file_get_contents($geocoder_api), true);
             return $result;
         } catch (\Exception $e) {

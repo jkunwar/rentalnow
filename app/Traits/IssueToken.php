@@ -1,25 +1,27 @@
-<?php 
+<?php
 
 namespace App\Traits;
 
-use Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /**
-* Trait IssueToken
-*
-* @package App\Trait
-*/
+ * Trait IssueToken
+ *
+ * @package App\Trait
+ */
 
-trait IssueToken {
+trait IssueToken
+{
 
-    public function issueToken(Request $request, $grant_type, $scope = '*') {
+    public function issueToken(Request $request, $grant_type, $scope = '*')
+    {
         $params = [
             'grant_type'    => $grant_type,
             'client_id'     => $this->client->id,
             'client_secret' => $this->client->secret,
             'username'      => $request->username,
-            'password'      => $request->password, 
+            'password'      => $request->password,
             'scope'         => $scope,
         ];
         $request->request->add($params);

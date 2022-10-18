@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Response;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Illuminate\Http\Response as Res;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,44 +10,44 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class BaseController extends Controller
 {
     /**
-        * @OA\Info(
-        *   title="Rental now Api Documentation",
-        *   version="1.0.0",
-        *   termsOfService="http://www.rentalnow.com.au/",
-        *   @OA\Contact(
-        *     name="Jagdish kunwar",
-        *     email="jagdishkunwar002@gmail.com",
-        *   ),
-        *   @OA\License(
-        *      name="Apache 2.0",
-        *      url="http://www.apache.org/licenses/LICENSE-2.0.html"
-        *   ),
-        *    @OA\ExternalDocumentation(
-        *     description="Find more",
-        *     url="https://github.com/zircote/swagger-php/blob/master/Examples/petstore-3.0/api.php"
-        *   ),
-        * )
-    */
-        //base url
+     * @OA\Info(
+     *   title="Rental now Api Documentation",
+     *   version="1.0.0",
+     *   termsOfService="http://www.rentalnow.com.au/",
+     *   @OA\Contact(
+     *     name="Jagdish kunwar",
+     *     email="jagdishkunwar002@gmail.com",
+     *   ),
+     *   @OA\License(
+     *      name="Apache 2.0",
+     *      url="http://www.apache.org/licenses/LICENSE-2.0.html"
+     *   ),
+     *    @OA\ExternalDocumentation(
+     *     description="Find more",
+     *     url="https://github.com/zircote/swagger-php/blob/master/Examples/petstore-3.0/api.php"
+     *   ),
+     * )
+     */
+    //base url
     /**
-        *   @OA\Server(
-        *       url="/api/v1",
-        *   ),
-    */
-        //component>SecurityScheme>app_key
+     *   @OA\Server(
+     *       url="/api/v1",
+     *   ),
+     */
+    //component>SecurityScheme>app_key
     /**
-        * @OA\SecurityScheme(
-        *   securityScheme="Bearer_auth",
-        *   type="http",
-        *   scheme="bearer", 
-        * ),
-        * @OA\SecurityScheme(
-        *   securityScheme="App_Key",
-        *   type="apiKey",
-        *   in="header",
-        *   name="X-APP-TOKEN",  
-        * ),
-    */
+     * @OA\SecurityScheme(
+     *   securityScheme="Bearer_auth",
+     *   type="http",
+     *   scheme="bearer",
+     * ),
+     * @OA\SecurityScheme(
+     *   securityScheme="App_Key",
+     *   type="apiKey",
+     *   in="header",
+     *   name="X-APP-TOKEN",
+     * ),
+     */
     /**
      * @var int
      */
@@ -57,7 +56,8 @@ class BaseController extends Controller
     /**
      * @return mixed
      */
-    public function getStatusCode() {
+    public function getStatusCode()
+    {
         return $this->statusCode;
     }
 
@@ -65,12 +65,14 @@ class BaseController extends Controller
      * @param $message
      * @return json response
      */
-    public function setStatusCode($statusCode) {
+    public function setStatusCode($statusCode)
+    {
         $this->statusCode = $statusCode;
         return $this;
     }
 
-    public function respondCreated($message, $data=null){
+    public function respondCreated($message, $data = null)
+    {
         return $this->respond([
             'status_code' => Res::HTTP_CREATED,
             'message' => $message,
@@ -83,7 +85,8 @@ class BaseController extends Controller
      * @param $data
      * @return mixed
      */
-    protected function respondWithPagination(LengthAwarePaginator $paginate, $data, $message){
+    protected function respondWithPagination(LengthAwarePaginator $paginate, $data, $message)
+    {
         // $data = array_merge($data, [
         //     'paginator' => [
         //         'total_count'  => $paginate->total(),
@@ -93,10 +96,10 @@ class BaseController extends Controller
         //     ]
         // ]);
         $paginator = [
-                'total_count'  => $paginate->total(),
-                'total_pages' => ceil($paginate->total() / $paginate->perPage()),
-                'current_page' => $paginate->currentPage(),
-                'limit' => $paginate->perPage(),
+            'total_count'  => $paginate->total(),
+            'total_pages' => ceil($paginate->total() / $paginate->perPage()),
+            'current_page' => $paginate->currentPage(),
+            'limit' => $paginate->perPage(),
         ];
         return $this->respond([
             'status_code' => Res::HTTP_OK,
@@ -106,11 +109,13 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondPagination($data, $headers = []) {
+    public function respondPagination($data, $headers = [])
+    {
         return Response::json($data, $this->getStatusCode(), $headers);
     }
 
-    public function respondNotFound($message = 'Not Found!'){
+    public function respondNotFound($message = 'Not Found!')
+    {
         return $this->respond([
             'status_code' => Res::HTTP_NOT_FOUND,
             'message' => $message,
@@ -118,7 +123,8 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondInternalError($message){
+    public function respondInternalError($message)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_INTERNAL_SERVER_ERROR,
@@ -126,7 +132,8 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondValidationError($message, $errors){
+    public function respondValidationError($message, $errors)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_UNPROCESSABLE_ENTITY,
@@ -135,11 +142,13 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respond($data, $headers = []){
+    public function respond($data, $headers = [])
+    {
         return Response::json($data, $this->getStatusCode(), $headers);
     }
 
-    public function sendSuccessResponse($result, $message){
+    public function sendSuccessResponse($result, $message)
+    {
         return $this->respond([
             'status_code' => Res::HTTP_OK,
             'message' => $message,
@@ -147,7 +156,8 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondNoContent($message){
+    public function respondNoContent($message)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_NO_CONTENT,
@@ -155,15 +165,17 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondWithError($message){
+    public function respondWithError($message)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_BAD_REQUEST,
             'message' => $message,
         ]);
     }
-    
-    public function respondWithUnauthorized($message){
+
+    public function respondWithUnauthorized($message)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_UNAUTHORIZED,
@@ -171,7 +183,8 @@ class BaseController extends Controller
         ]);
     }
 
-    public function respondForbidden($message){
+    public function respondForbidden($message)
+    {
         return $this->respond([
             'error' => 'error',
             'status_code' => Res::HTTP_FORBIDDEN,

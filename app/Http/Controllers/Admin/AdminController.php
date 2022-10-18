@@ -40,15 +40,15 @@ class AdminController extends Controller
     {
         // validate the data
         $this->validate($request, [
-          'name'          => 'required',
-          'email'         => 'required|email|unique:admins',
-          'password'      => 'required|min:8|confirmed'
+            'name'          => 'required',
+            'email'         => 'required|email|unique:admins',
+            'password'      => 'required|min:8|confirmed'
         ]);
         // store in the database
         $admins = new Admin;
         $admins->name = $request->name;
         $admins->email = $request->email;
-        $admins->password=bcrypt($request->password);
+        $admins->password = bcrypt($request->password);
         $admins->save();
         return redirect()->route('admin.auth.login');
     }

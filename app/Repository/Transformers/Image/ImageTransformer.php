@@ -1,12 +1,14 @@
-<?php 
+<?php
 
 namespace App\Repository\Transformers\Image;
 
 use App\Repository\Transformers\Transformer;
 
-class ImageTransformer extends Transformer {
+class ImageTransformer extends Transformer
+{
 
-	public function transform($image) {
+	public function transform($image)
+	{
 		return [
 			'id'	=> $image->id,
 			'item_id' => $image->room_id ? $image->room_id : $image->house_id,

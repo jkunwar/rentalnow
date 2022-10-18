@@ -4,8 +4,10 @@ namespace App\Traits;
 
 use App\Exceptions\SocialMediaValidationException;
 
-trait GoogleValidation {
-    public function validateGoogleToken($token, $device_type) {
+trait GoogleValidation
+{
+    public function validateGoogleToken($token, $device_type)
+    {
         try {
             $device_type == 'android' ? $CLIENT_ID =  env('GOOGLE_CLIENT_ID_ANDROID') : $CLIENT_ID = env('GOOGLE_CLIENT_ID_IOS');
             $client = new \Google_Client(['client_id' => $CLIENT_ID]);
@@ -21,5 +23,3 @@ trait GoogleValidation {
         }
     }
 }
-
-?>
