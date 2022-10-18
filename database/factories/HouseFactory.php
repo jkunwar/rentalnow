@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\House::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
-        'user_id' => $faker->numberBetween($min = 1, $max = 500),
+        'user_id' => $faker->numberBetween($min = 1, $max = 100),
         'address_id' => $faker->numberBetween($min = 1, $max = 200),
         'currency' => $faker->randomElement($array = array('AUD', 'USD', 'CAD')),
         'rent' => $faker->numberBetween($min = 300, $max = 1500),

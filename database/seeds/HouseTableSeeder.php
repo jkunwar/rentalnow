@@ -11,6 +11,6 @@ class HouseTableSeeder extends Seeder
      */
     public function run()
     {
-        $houses = factory(App\Models\House::class, 500)->create();
+        $houses = factory(App\Models\House::class, 100)->create();
     }
 }
