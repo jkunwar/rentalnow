@@ -29,7 +29,7 @@ class UserUpdateRequest extends FormRequest
             'name'     => 'bail|sometimes|required|string',
             'gender'  => 'bail|sometimes|required|in:male,female,other',
             'dob' => 'bail|sometimes|required|date|date_format:Y-m-d|before:today',
-            'phone_number' => 'bail|sometimes|required',
+            'phone_number' => 'bail|sometimes',
             'email' => 'bail|sometimes|required|email',
 
             'address'           => 'bail|sometimes|array',
@@ -39,7 +39,8 @@ class UserUpdateRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         throw new CustomValidationException($validator);
     }
 

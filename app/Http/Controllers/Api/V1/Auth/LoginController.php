@@ -113,7 +113,7 @@ class LoginController extends BaseController
             'name'          => 'bail|required|string|max:191',
             'dob'           => 'bail|nullable||date|date_format:"Y-m-d|before:today',
             'gender'        => 'bail|nullable|in:male,female,other',
-            'phone_number'  => 'bail|required|digits_between:7,10',
+            'phone_number'  => 'bail|digits_between:7,10',
             'email'         => 'bail|required|email',
             'token'         => 'required',
             'provider'      => 'bail|required|in:facebook,google',
