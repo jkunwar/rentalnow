@@ -84,11 +84,10 @@ class RoomController extends BaseController
     {
         try {
             $rooms = (new Room)->getAll();
-            if ($rooms->count() === 0) {
-                $this->setStatusCode(Res::HTTP_NOT_FOUND);
-                return $this->respondNotFound('no records found');
-            }
-
+            // if ($rooms->count() === 0) {
+            //     $this->setStatusCode(Res::HTTP_NOT_FOUND);
+            //     return $this->respondNotFound('no records found');
+            // }
             $this->setStatusCode(Res::HTTP_OK);
             return $this->respondWithPagination($rooms, $this->room_transformer->transformCollection($rooms->all()), 'rooms listed successfully');
         } catch (\Exception $e) {
