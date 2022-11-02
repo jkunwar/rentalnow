@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware'=>['api'],'prefix'=>'/v1',  'namespace' => 'Api\V1\Auth'], function(){
-    Route::post('/login', 'LoginController@login');
-    Route::post('/tokens/refresh', 'LoginController@refreshToken');
+Route::group(['middleware' => ['api'], 'prefix' => '/v1',  'namespace' => 'Api\V1\Auth'], function () {
+	Route::post('/login', 'LoginController@login');
+	Route::post('/tokens/refresh', 'LoginController@refreshToken');
 
 	// Route::post('/login/{social}/callback','LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google');
 });
 
-Route::group(['middleware' => ['auth:api'], 'prefix' => '/v1', 'namespace' => 'Api\V1'], function() {
+Route::group(['middleware' => ['auth:api'], 'prefix' => '/v1', 'namespace' => 'Api\V1'], function () {
 	//users
 	Route::put('/users/{user_id}', 'User\UserController@update');
 	Route::post('/users/{user_id}/images', 'User\UserController@updateProfileImage');
@@ -63,10 +63,10 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => '/v1', 'namespace' => 'A
 	Route::post('/messages/{user_id}', 'Message\MessageController@sendMessage');
 
 	//logout
-	Route::post('/logout','Auth\LoginController@logout');
+	Route::post('/logout', 'Auth\LoginController@logout');
 });
 
-Route::group(['middleware'=>['api'],'prefix'=>'/v1',  'namespace' => 'Api\V1'], function(){
+Route::group(['middleware' => ['api'], 'prefix' => '/v1',  'namespace' => 'Api\V1'], function () {
 	Route::get('/suggestions', 'Search\SearchController@getSuggestions');
 	Route::get('/search/{location_id}', 'Search\SearchController@getLatLngFromLocationId');
 
