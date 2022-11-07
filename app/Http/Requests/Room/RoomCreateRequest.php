@@ -27,7 +27,7 @@ class RoomCreateRequest extends FormRequest
     {
         return [
             'title'     => 'bail|required|string',
-            'currency'  => 'bail|required|in:AUD,USD',
+            'currency'  => 'bail|required|in:AUD,USD,CAD',
             'rent'  => 'bail|required|numeric|gt:1',
             'move_date' => 'bail|sometimes|required|date|date_format:Y-m-d|after_or_equal:today',
             'leave_date' => 'bail|sometimes|required|date|date_format:Y-m-d|after:move_date',
@@ -35,22 +35,23 @@ class RoomCreateRequest extends FormRequest
 
             'address'  => 'bail|required|array',
             'address.latitude'   => [
-                                    'bail',
-                                    'required_with:address',
-                                    'regex:/^(\+|-)?(?:90(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$/u'
-                                ],
+                'bail',
+                'required_with:address',
+                'regex:/^(\+|-)?(?:90(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$/u'
+            ],
             'address.longitude' => [
-                                    'bail',
-                                    'required_with:address',
-                                    'regex:/^(\+|-)?(?:180(?:(?:\.0{1,14})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,14})?))$/u'
-                                ],
+                'bail',
+                'required_with:address',
+                'regex:/^(\+|-)?(?:180(?:(?:\.0{1,14})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,14})?))$/u'
+            ],
             'address.location' => 'bail|required_with:address',
 
             'amenities' => 'bail|sometimes|required|array',
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         throw new CustomValidationException($validator);
     }
 
