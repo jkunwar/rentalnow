@@ -13,7 +13,7 @@ class RoomImage extends Model
     public function uploadImage($request, $id)
     {
         if ($request->hasFile('image')) {
-            $file_name = date('ymdhis');
+            $file_name = date('m/d/Y h:i:s a', time());
             $extname = $request->file('image')->getClientOriginalExtension();
             $file_name_to_store = $file_name . '.' . $extname;
             $path = $request->file('image')->storeAs('public/images/room', $file_name_to_store);
