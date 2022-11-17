@@ -95,6 +95,7 @@ class Room extends Model
         $max_price = Request::get('max_price');
         $amenities = Request::get('amenity');
         $pets_allowed = Request::get('pets_allowed');
+        $furnished = Request::get('furnished');
 
         $query = $this->roomQuery();
 
@@ -123,6 +124,10 @@ class Room extends Model
 
         if (isset($pets_allowed)) {
             $query->where('rooms.pets_allowed', $pets_allowed);
+        }
+
+        if (isset($furnished)) {
+            $query->where('rooms.furnished', $furnished);
         }
 
         if (isset($amenities)) {
