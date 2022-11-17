@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use DB;
 use App\Models\RoomImage;
 use App\Models\AmenityRoom;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -59,8 +60,8 @@ class Room extends Model
             ->with('amenities')
             ->with('images');
 
-        if (\Auth::guard('api')->check()) {
-            $user_id = \Auth::guard('api')->user()->id;
+        if (Auth::guard('api')->check()) {
+            $user_id = Auth::guard('api')->user()->id;
             $query->selectRaw("(SELECT count(*) FROM favourite_rooms WHERE favourite_rooms.room_id = rooms.id AND favourite_rooms.user_id = '$user_id') as favourite");
         } else {
             $query->selectRaw("(SELECT 0 as favourite)");
@@ -185,7 +186,7 @@ class Room extends Model
 
         return $query->where('is_available', 1)
             ->join('favourite_rooms', 'rooms.id', 'favourite_rooms.room_id')
-            ->where('favourite_rooms.user_id', \Auth::guard('api')->user()->id)
+            ->where('favourite_rooms.user_id', Auth::guard('api')->user()->id)
             ->orderBy('created_at', 'desc')
             ->paginate($limit);
     }
