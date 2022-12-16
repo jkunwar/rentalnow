@@ -150,7 +150,7 @@ class Room extends Model
             }
         }
 
-        if ((isset($radius) && is_numeric($radius)) && isset($latitude) && isset($longitude)) {
+        if ((isset($radius) && is_numeric($radius)) && isset($latitude) && is_float($latitude) && isset($longitude) && is_float($longitude)) {
             $query->WhereRaw("earth_distance(ll_to_earth(" . $latitude . ", " . $longitude . "), ll_to_earth(addresses.latitude, addresses.longitude)) / 1000 <= " . $radius);
         }
 

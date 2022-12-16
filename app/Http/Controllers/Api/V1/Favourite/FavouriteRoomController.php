@@ -57,10 +57,10 @@ class FavouriteRoomController extends BaseController
     {
         try {
             $favourite_rooms = (new Room)->getFavouriteRooms();
-            if ($favourite_rooms->count() === 0) {
-                $this->setStatusCode(Res::HTTP_NOT_FOUND);
-                return $this->respondNotFound('no records found');
-            }
+            // if ($favourite_rooms->count() === 0) {
+            //     $this->setStatusCode(Res::HTTP_NOT_FOUND);
+            //     return $this->respondNotFound('no records found');
+            // }
 
             $this->setStatusCode(Res::HTTP_OK);
             return $this->respondWithPagination($favourite_rooms, $this->room_transformer->transformCollection($favourite_rooms->all()), 'favourite rooms listed successfully');
